@@ -30,7 +30,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
   public boolean snakeUpdated, Lost_outLimit;
   public boolean boardDraw = false;
-  public boolean running, updatingSnake, updatingGame, firstSnake, createNewApple = false, isOut, right = true, left = false, up = false, down = false;
+  public boolean running, updatingGame, firstSnake, createNewApple = false, isOut, right = true, left = false, up = false, down = false;
   public boolean snakeDrawn = false;
 
   public int getWidth(){return WIDTH;}
@@ -46,6 +46,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
     CoordSnake_Y =cord;}
 
 
+
   @Override
   public void run() {
     while(running) {
@@ -59,6 +60,10 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
   }
 
+  //Function which creates the board and the key listener to be able to insert keys.
+  //It creates two arrays. One of them is the snake and the other the Apples.
+  //Finally it starts the game.
+
   public Board() throws InterruptedException {
 
     setFocusable(true);
@@ -68,6 +73,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
     apples = new ArrayList<Apple>();
     start();
   }
+
+
   public void paint(Graphics g) {
     g.clearRect(0, 0, WIDTH, HEIGHT);
 
@@ -96,11 +103,18 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
   }
 
+  //Start function starts the game by creating a Thread and inicializing.
+  //the variable running.
+
   public void start(){
     running = true;
     thread = new Thread(this);
     thread.start();
   }
+
+  //Function where we stop the full game. Running is now false and
+  //We create a JSON to save the user player and his/her puntuation.
+  //It stops the Thread created in start function.
 
   public void stop() throws IOException {
     running=false;
@@ -112,6 +126,10 @@ public class Board extends JPanel implements Runnable, KeyListener {
       e.printStackTrace();
     }
   }
+
+  //Function which updates the full game. Every time the tick increase,
+  //It comproves if the size snake is 0, if there is apples in the board, if we are inside the
+  //board limits and if we have hit ourselves.
 
   public void update() throws IOException {
 
@@ -146,6 +164,9 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
   }
 
+  //Function where we update the snake direction / move according to the
+  //values of the pressed key.
+
   public void updateSnake(boolean right, boolean left, boolean down, boolean up){
 
     snakeUpdated = false;
@@ -170,6 +191,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
   }
 
+  //Function where we move the snake. We delete the first position (the tail).
+
   public void moveSnake(){
     if (snake.size() > SnakeSize) {
       snake.remove(0);
@@ -179,16 +202,20 @@ public class Board extends JPanel implements Runnable, KeyListener {
     }
   }
 
-  public boolean comproveLimits() throws IOException {
+  //Function where we comprove if we are going out the limits of the board (It has
+  // to be greater or equal than 0 and lower than 50.
 
+  public boolean comproveLimits() throws IOException {
     if((CoordSnake_X >= 0 && CoordSnake_X <= 49) && (CoordSnake_Y >= 0 && CoordSnake_Y <= 49)) {
       Lost_outLimit = false;
     }else{
       Lost_outLimit = true;
     }
     return Lost_outLimit;
-
   }
+
+  //Function where we comprove if there is some aple in the board.
+  //If it does not exist, it adds an Apple to the list.
 
   public boolean comproveApplesInBoard(){
     if(apples.size() == 0){
@@ -200,6 +227,9 @@ public class Board extends JPanel implements Runnable, KeyListener {
     return createNewApple;
   }
 
+  //Function where we see if we are in the same position of the Apple. (First square)
+  //If it is, it calls grow() function.
+
   public void eat(){
     for (int i=0; i< apples.size();i++){
       if(snake.get(snake.size() - 1).getCoord_X() == apples.get(i).getCoord_X() && snake.get(snake.size()-1).getCoord_Y() == apples.get(i).getCoord_Y())
@@ -207,6 +237,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
     }
   }
 
+  //Function which make the snake grows if we eat a Apple.It
+  //updates the SnakeSize, the puntuation and decrease the velocity.
 
   public void grow(){
     SnakeSize++;
@@ -219,6 +251,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
     apples.add(apple);
   }
 
+  //Function where we see if we have hit ourselves. If it is
+  //true we die. And the game is stopped.
 
   public boolean lose_hitHimself(){
     for (int i = 0; i < snake.size(); i++){
@@ -230,6 +264,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
     }
     return false;
   }
+
+  //Function where we update the boolean of the pressed key to true.All the other are set False.
 
   @Override
   public void keyPressed(KeyEvent e) {
@@ -259,6 +295,10 @@ public class Board extends JPanel implements Runnable, KeyListener {
       down = false;
     }
   }
+
+
+
+  //Needed functions to use KeyListener Library.
 
   @Override
   public void keyTyped(KeyEvent e) {//Do nothing

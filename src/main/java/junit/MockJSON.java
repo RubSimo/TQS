@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 
 public class MockJSON extends JSON {
 
+    //MockOBJECT to "simulate" a database while JSON Database does not exist.
+
     public static JSONObject addUserPuntuation() throws FileNotFoundException {
         String json_information = "{\"Test_Add\":10}";
         JSONObject testMockJSON = new JSONObject(json_information);

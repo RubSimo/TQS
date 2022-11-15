@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-
   public static int tries = 0;
   public static int tries_to_use = 0;
   public static int maximum_tries = 5;
@@ -29,7 +28,6 @@ public class Main {
     window.setLocationRelativeTo(null);
     window.pack();
     window.setVisible(true);
-
   }
 
   public static void Play() throws InterruptedException {

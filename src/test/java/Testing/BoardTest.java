@@ -186,8 +186,8 @@ public class BoardTest {
         assertEquals(board.WIDTH, 500);
         assertEquals(board.getSnake().size(), 0);
         assertEquals(board.getApples().size(), 0);
-
     }
+
     @Test
     public void testInitialPuntuation() throws InterruptedException {
         Board board = new Board();
