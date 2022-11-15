@@ -59,8 +59,13 @@ public class Main {
     for (tries = tries_to_use; tries < maximum_tries; tries++) {
       System.out.println("Enter '1' or '2'");
       System.out.println("You have " + (maximum_tries - tries) + " tries to insert an option. ");
-      Scanner s2 = new Scanner(System.in);
-      choiceentry = Integer.parseInt(s2.nextLine());
+      try {
+        Scanner s2 = new Scanner(System.in);
+        choiceentry = Integer.parseInt(s2.nextLine());
+      } catch (Exception e) {
+        System.out.println("Choose a numeric option.");
+      }
+
       if (choiceentry == 1 || choiceentry == 2) {
         switch (choiceentry) {
           case 1:
